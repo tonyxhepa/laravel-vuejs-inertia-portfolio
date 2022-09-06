@@ -33,8 +33,11 @@
               <option v-for="skill in skills" :key="skill.id" :value="skill.id">
                 {{ skill.name }}
               </option>
+              <BreezeInputError
+                class="mt-2"
+                :message="$page.props.errors.skill_id"
+              />
             </select>
-            <BreezeInputError class="mt-2" :message="form.errors.skill_id" />
           </div>
           <div>
             <BreezeLabel for="name" value="Name" />
@@ -46,7 +49,7 @@
               autofocus
               autocomplete="name"
             />
-            <BreezeInputError class="mt-2" :message="form.errors.name" />
+            <BreezeInputError class="mt-2" :message="$page.props.errors.name" />
           </div>
           <div>
             <BreezeLabel for="project_url" value="URL" />
@@ -57,7 +60,10 @@
               v-model="form.project_url"
               autocomplete="projecturl"
             />
-            <BreezeInputError class="mt-2" :message="form.errors.project_url" />
+            <BreezeInputError
+              class="mt-2"
+              :message="$page.props.errors.project_url"
+            />
           </div>
           <div class="mt-2">
             <BreezeLabel for="image" value="Image" />
@@ -67,16 +73,13 @@
               class="mt-1 block w-full"
               @input="form.image = $event.target.files[0]"
             />
-            <BreezeInputError class="mt-2" :message="form.errors.image" />
+            <BreezeInputError
+              class="mt-2"
+              :message="$page.props.errors.image"
+            />
           </div>
           <div class="flex items-center justify-end mt-4">
-            <BreezeButton
-              class="ml-4"
-              :class="{ 'opacity-25': form.processing }"
-              :disabled="form.processing"
-            >
-              Store
-            </BreezeButton>
+            <BreezeButton class="ml-4"> Update </BreezeButton>
           </div>
         </form>
       </div>
@@ -91,19 +94,27 @@ import BreezeButton from "@/Components/Button.vue";
 import BreezeInput from "@/Components/Input.vue";
 import BreezeInputError from "@/Components/InputError.vue";
 import BreezeLabel from "@/Components/Label.vue";
+import { Inertia } from "@inertiajs/inertia";
 
-defineProps({
+const props = defineProps({
   skills: Array,
+  project: Object,
 });
 
 const form = useForm({
-  name: "",
+  name: props.project?.name,
   image: null,
-  skill_id: "",
-  project_url: "",
+  skill_id: props.project?.skill_id,
+  project_url: props.project?.project_url,
 });
 
 const submit = () => {
-  form.post(route("projects.store"));
+  Inertia.post(`/projects/${props.project.id}`, {
+    _method: "put",
+    name: form.name,
+    image: form.image,
+    skill_id: form.skill_id,
+    project_url: form.project_url,
+  });
 };
 </script>
