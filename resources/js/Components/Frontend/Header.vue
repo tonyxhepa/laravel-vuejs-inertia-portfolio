@@ -18,11 +18,11 @@ const showMobileMenu = ref("false");
       class="container flex flex-wrap justify-between items-center mx-auto"
       bis_skin_checked="1"
     >
-      <a href="https://flowbite.com/" class="flex items-center">
+      <a href="https://laraveller.com/" class="flex items-center">
         <img
-          src="https://flowbite.com/docs/images/logo.svg"
+          src="http://portfolio.test/img/logo.png"
           class="mr-3 h-6 sm:h-9"
-          alt="Flowbite Logo"
+          alt="Laraveller Logo"
         />
         <span
           class="
@@ -32,7 +32,7 @@ const showMobileMenu = ref("false");
             whitespace-nowrap
             dark:text-white
           "
-          >Flowbite</span
+          >Laraveller</span
         >
       </a>
       <button
